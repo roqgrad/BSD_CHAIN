@@ -12,7 +12,7 @@ class Config:
     os_name: str
     version: str
     target_arch: str
-    git_repo: str = "https://git.freebsd.org/src.git"
+    git_repo: str = "https://github.com/freebsd/freebsd-src"
     git_branch: str = None
     kernel_config: str = "GENERIC"
     custom_kernel_config: str = None
