@@ -1,0 +1,43 @@
+name: Build Custom OS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git
+    
+    - name: Clone FreeBSD source
+      run: |
+        python freebsd_builder.py --clone --version 14.0-RELEASE
+    
+    - name: Apply customizations
+      run: |
+        python freebsd_builder.py --customize --os-name "CustomBSD"
+    
+    - name: Save configuration
+      run: |
+        python freebsd_builder.py --save-config build_config.json
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-config
+        path: build_config.json

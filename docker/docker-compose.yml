@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  freebsd-builder:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../freebsd_workspace:/workspace/freebsd_workspace
+      - ../patches:/workspace/patches
+      - ../hooks:/workspace/hooks
+    environment:
+      - OS_NAME=CustomBSD
+      - VERSION=14.0-RELEASE
+      - TARGET_ARCH=amd64
+    command: python3 freebsd_builder.py --all

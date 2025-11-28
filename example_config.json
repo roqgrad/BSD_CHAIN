@@ -1,0 +1,73 @@
+{
+  "work_dir": "./freebsd_workspace",
+  "os_name": "MyCustomOS",
+  "version": "14.0-RELEASE",
+  "target_arch": "amd64",
+  "git_repo": "https://git.freebsd.org/src.git",
+  "git_branch": "releng/14.0",
+  "kernel_config": "GENERIC",
+  "make_jobs": 8,
+  
+  "enable_ports": true,
+  "ports_repo": "https://git.freebsd.org/ports.git",
+  "custom_packages": [
+    "bash",
+    "vim",
+    "tmux",
+    "git"
+  ],
+  
+  "kernel_options": [
+    "ALTQ",
+    "ALTQ_CBQ",
+    "ALTQ_RED",
+    "IPSEC",
+    "IPSEC_SUPPORT"
+  ],
+  "kernel_devices": [
+    "pf",
+    "pflog"
+  ],
+  "kernel_nodevices": [
+    "fdc"
+  ],
+  
+  "custom_motd": "Welcome to MyCustomOS - A FreeBSD-based Operating System\n\nFor support, visit: https://example.com\n",
+  "custom_logo": "MyCustomOS",
+  
+  "custom_rc_conf": {
+    "hostname": "mycustomos",
+    "sshd_enable": "YES",
+    "firewall_enable": "YES",
+    "firewall_type": "workstation"
+  },
+  
+  "custom_sysctl": {
+    "security.bsd.see_other_uids": "0",
+    "kern.ipc.shm_allow_removed": "1"
+  },
+  
+  "make_conf_additions": [
+    "WITH_CCACHE_BUILD=yes",
+    "CPUTYPE?=native"
+  ],
+  
+  "src_conf_additions": [
+    "WITHOUT_SENDMAIL=yes",
+    "WITHOUT_GAMES=yes"
+  ],
+  
+  "patch_dir": "./patches",
+  
+  "create_iso": true,
+  "iso_label": "MyCustomOS",
+  "iso_volume": "MyCustomOS_14.0",
+  
+  "pre_build_hooks": [
+    "./hooks/pre_build.sh"
+  ],
+  "post_build_hooks": [
+    "./hooks/post_build.sh",
+    "./hooks/sign_binaries.sh"
+  ]
+}
